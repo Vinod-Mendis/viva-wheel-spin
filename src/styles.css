@@ -1,0 +1,125 @@
+/** @format */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  height: 100vh;
+  display: grid;
+  place-items: center;
+  margin: 0;
+  height: 100vh;
+  background: linear-gradient(to bottom, #ef1923, #ffb822);
+}
+
+#spin_the_wheel {
+  display: inline-block;
+  position: relative;
+  overflow: hidden;
+}
+
+#wheel {
+  display: block;
+}
+
+#spin {
+  font: 1.5em/0 "Lato", sans-serif;
+  user-select: none;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 30%;
+  height: 30%;
+  margin: -15%;
+  background: #fff;
+  color: #fff;
+  font-size: 40px;
+  box-shadow: 0 0 0 8px rgba(255, 0, 0, 1), 0 0px 15px 5px rgba(255, 0, 0, 1);
+  border-radius: 50%;
+  transition: 0.8s;
+}
+
+#spin::after {
+  content: "";
+  position: absolute;
+  top: -17px;
+  border: 10px solid transparent;
+  border-bottom-color: rgba(255, 0, 0, 1);
+  border-top: none;
+  color: rgba(255, 0, 0, 1);
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+  flex-basis: 100%;
+  flex: 1;
+}
+
+#result-container {
+  display: flex;
+  background: linear-gradient(to left, #ef1923, #ffb822);
+  color: white;
+  width: 400px;
+  height: auto;
+  padding: 20px;
+  border: solid 4px rgb(255, 199, 29);
+  box-shadow: 0 0px 15px 5px rgb(246, 125, 125);
+  border-radius: 16px;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.congrats {
+  color: white;
+}
+
+#close {
+  top: 10%;
+  right: 2%;
+  border-radius: 8px;
+  /* position: absolute;   */
+  padding: 4px 6px;
+  cursor: pointer;
+}
+
+#results-wrapper {
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(8px);
+  width: 100vw;
+  height: 100vh;
+  position: absolute;
+  z-index: 1;
+  display: none;
+  justify-content: center;
+  align-items: center;
+}
+
+#result {
+  text-transform: uppercase;
+  font-size: 60px;
+  font-weight: bold;
+}
+
+.logo {
+  position: absolute;
+  z-index: 1;
+  border-radius: 100%;
+  width: 230px;
+}

@@ -1,0 +1,353 @@
+<!-- @format -->
+
+<!-- <!DOCTYPE html>
+<html>
+<head>
+    <title>Admin</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="adminUi">
+    <h2>Admin Interface</h2>
+    <div>
+        <h3>Add Item</h3>
+        <input id="itemName" placeholder="Item Name">
+        <input id="itemCount" type="number" placeholder="Count">
+        <input id="itemImage" type="file" accept="image/*" placeholder="Image">
+        <button onclick="addItem()">Add</button>
+    </div>
+    <div>
+        <h3>Table 1 Items</h3>
+        <table id="table1"></table>
+    </div>
+    <div>
+        <h3>Table 2</h3>
+        <select id="itemSelect"></select>
+        <button onclick="addToTable2()">Add to Table 2</button>
+        <ul id="table2"></ul>
+    </div>
+
+    Edit Prize Modal -->
+<!-- <div id="edit-modal" class="modal" style="display: none;">
+    <div class="modal-content">
+      <span id="close-modal" class="close">&times;</span>
+      <h2>Edit Prize</h2>
+      <form id="edit-prize-form">
+        <label for="edit-prize-name">Prize Name:</label>
+        <input type="text" id="edit-prize-name" required>
+        <label for="edit-prize-stock">Stock:</label>
+        <input type="number" id="edit-prize-stock" required>
+        <input type="hidden" value="" id="edit-prize-id" required>
+        <button type="submit">Save Changes</button>
+      </form>
+    </div>
+  </div>
+
+    <script src="renderer.js"></script>
+</body>
+</html> -->
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Admin Dashboard</title>
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+      rel="stylesheet" />
+  </head>
+  <body
+    style="
+      margin: 0;
+      padding: 20px;
+      background-color: #f5f7fb;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      color: #333;
+    ">
+    <div style="max-width: 1200px; margin: 0 auto">
+      <h2 style="color: #2c3e50; font-size: 28px; margin-bottom: 30px">
+        Dashboard
+      </h2>
+
+      <!-- Add Item Card -->
+      <div
+        style="
+          background: white;
+          padding: 24px;
+          border-radius: 12px;
+          box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+          margin-bottom: 30px;
+        ">
+        <h3
+          style="
+            color: #2c3e50;
+            font-size: 20px;
+            margin-top: 0;
+            margin-bottom: 20px;
+          ">
+          Add Item
+        </h3>
+        <div style="display: flex; gap: 15px; flex-wrap: wrap">
+          <input
+            id="itemName"
+            placeholder="Item Name"
+            style="
+              padding: 12px;
+              border: 1px solid #e1e1e1;
+              border-radius: 6px;
+              font-size: 14px;
+              flex: 1;
+            " />
+          <input
+            id="itemCount"
+            type="number"
+            placeholder="Count"
+            style="
+              padding: 12px;
+              border: 1px solid #e1e1e1;
+              border-radius: 6px;
+              font-size: 14px;
+              width: 120px;
+            " />
+          <div style="flex: 1; min-width: 200px">
+            <label
+              for="itemImage"
+              style="
+                display: inline-block;
+                padding: 12px 20px;
+                background: #f8f9fa;
+                border: 1px solid #e1e1e1;
+                border-radius: 6px;
+                cursor: pointer;
+                font-size: 14px;
+              ">
+              <i class="fas fa-upload" style="margin-right: 8px"></i>Upload
+              Image
+            </label>
+            <input
+              id="itemImage"
+              type="file"
+              accept="image/*"
+              style="display: none" />
+          </div>
+          <button
+            onclick="addItem()"
+            style="
+              padding: 12px 24px;
+              background: #4caf50;
+              color: white;
+              border: none;
+              border-radius: 6px;
+              cursor: pointer;
+              font-size: 14px;
+              transition: background 0.3s;
+            ">
+            <i class="fas fa-plus" style="margin-right: 8px"></i>Add Item
+          </button>
+        </div>
+      </div>
+
+      <!-- Tables Section -->
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px">
+        <!-- Table 1 -->
+        <div
+          style="
+            background: white;
+            padding: 24px;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+          ">
+          <h3
+            style="
+              color: #2c3e50;
+              font-size: 20px;
+              margin-top: 0;
+              margin-bottom: 20px;
+            ">
+            Table 1 Items
+          </h3>
+          <div style="overflow-x: auto">
+            <table id="table1" style="width: 100%; border-collapse: collapse">
+              <thead>
+                <tr style="background: #f8f9fa">
+                  <th
+                    style="
+                      padding: 12px;
+                      text-align: left;
+                      border-bottom: 2px solid #e1e1e1;
+                    ">
+                    Item
+                  </th>
+                  <th
+                    style="
+                      padding: 12px;
+                      text-align: left;
+                      border-bottom: 2px solid #e1e1e1;
+                    ">
+                    Count
+                  </th>
+                  <th
+                    style="
+                      padding: 12px;
+                      text-align: left;
+                      border-bottom: 2px solid #e1e1e1;
+                    ">
+                    Actions
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <!-- Table content will be populated by JavaScript -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Table 2 -->
+        <div
+          style="
+            background: white;
+            padding: 24px;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+          ">
+          <h3
+            style="
+              color: #2c3e50;
+              font-size: 20px;
+              margin-top: 0;
+              margin-bottom: 20px;
+            ">
+            Table 2
+          </h3>
+          <div style="display: flex; gap: 15px; margin-bottom: 20px">
+            <select
+              id="itemSelect"
+              style="
+                padding: 12px;
+                border: 1px solid #e1e1e1;
+                border-radius: 6px;
+                font-size: 14px;
+                flex: 1;
+              ">
+              <option value="">Select an item...</option>
+            </select>
+            <button
+              onclick="addToTable2()"
+              style="
+                padding: 12px 24px;
+                background: #3498db;
+                color: white;
+                border: none;
+                border-radius: 6px;
+                cursor: pointer;
+                font-size: 14px;
+                transition: background 0.3s;
+              ">
+              <i class="fas fa-plus" style="margin-right: 8px"></i>Add
+            </button>
+          </div>
+          <ul id="table2" style="list-style: none; padding: 0; margin: 0">
+            <!-- List items will be populated by JavaScript -->
+          </ul>
+        </div>
+      </div>
+
+      <!-- Edit Modal -->
+      <div
+        id="edit-modal"
+        class="modal"
+        style="
+          display: none;
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background: rgba(0, 0, 0, 0.5);
+          z-index: 1000;
+        ">
+        <div
+          class="modal-content"
+          style="
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 500px;
+          ">
+          <span
+            id="close-modal"
+            class="close"
+            style="
+              position: absolute;
+              right: 20px;
+              top: 20px;
+              font-size: 24px;
+              cursor: pointer;
+              color: #666;
+            "
+            >&times;</span
+          >
+          <h2 style="margin-top: 0; color: #2c3e50; font-size: 24px">
+            Edit Prize
+          </h2>
+          <form
+            id="edit-prize-form"
+            style="display: flex; flex-direction: column; gap: 15px">
+            <div style="display: flex; flex-direction: column; gap: 5px">
+              <label for="edit-prize-name" style="font-size: 14px; color: #666"
+                >Prize Name:</label
+              >
+              <input
+                type="text"
+                id="edit-prize-name"
+                required
+                style="
+                  padding: 12px;
+                  border: 1px solid #e1e1e1;
+                  border-radius: 6px;
+                  font-size: 14px;
+                " />
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 5px">
+              <label for="edit-prize-stock" style="font-size: 14px; color: #666"
+                >Stock:</label
+              >
+              <input
+                type="number"
+                id="edit-prize-stock"
+                required
+                style="
+                  padding: 12px;
+                  border: 1px solid #e1e1e1;
+                  border-radius: 6px;
+                  font-size: 14px;
+                " />
+            </div>
+            <input type="hidden" id="edit-prize-id" />
+            <button
+              type="submit"
+              style="
+                padding: 12px 24px;
+                background: #4caf50;
+                color: white;
+                border: none;
+                border-radius: 6px;
+                cursor: pointer;
+                font-size: 14px;
+                margin-top: 10px;
+                transition: background 0.3s;
+              ">
+              Save Changes
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <script src="renderer.js"></script>
+  </body>
+</html>

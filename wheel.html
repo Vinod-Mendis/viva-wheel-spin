@@ -1,0 +1,37 @@
+<!-- @format -->
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Welcome to Automation Anywhere's Spin the Wheel</title>
+    <meta charset="UTF-8" />
+    <script defer src="renderer.js"></script>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap");
+    </style>
+    <link rel="stylesheet" href="src/styles.css" />
+  </head>
+
+  <body id="body">
+    <img
+      src="https://res.cloudinary.com/dicewvvjl/image/upload/v1736947752/xnoshky2oi4zapalmnwl.png"
+      alt="logo"
+      class="logo" />
+    <div id="spin_the_wheel">
+      <canvas id="wheel" width="800" height="800"> </canvas>
+      <div id="spin"></div>
+    </div>
+
+    <div id="results-wrapper">
+      <div id="result-container">
+        <h1 class="result-text">
+          <span class="congrats">Congratulations</span><br />
+          <span id="result-text">You have won</span><br />
+          <span id="result" class="result"></span>
+        </h1>
+      </div>
+    </div>
+
+    <script defer src="src/index.js"></script>
+  </body>
+</html>

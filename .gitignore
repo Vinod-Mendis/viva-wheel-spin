@@ -1,0 +1,60 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Runtime data
+*.pid
+*.pid.lock
+
+# Dependency directories
+node_modules/
+bower_components/
+
+# Compiled output
+dist/
+build/
+
+# Electron-related files
+*.asar
+out/
+
+# Cache files
+.cache/
+.temp/
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# IDE-specific files
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+
+# Env files
+.env
+.env.local
+.env.*.local
+
+# Package-lock and yarn-lock (optional, if you don't want to track lock files)
+# Uncomment if you do not wish to commit lock files
+# package-lock.json
+# yarn.lock
+
+# Optional npm link
+npm-debug.log
+yarn-debug.log
+yarn-error.log
+.pnpm-debug.log*
+
+# Sentry or DSYM files
+*.dSYM
+
+# Test output
+coverage/

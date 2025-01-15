@@ -2,10 +2,20 @@
 
 let arc;
 let tot;
+let inventory;
+
+//function for get item count from table2
+async function loadInventory() {
+  inventory = await window.api.getItems();
+  console.log(inventory);
+}
+
 
 async function init() {
   sectors = await window.api.getItems2();
   console.log(sectors);
+
+  loadInventory(); // load item count init
 
   arc = TAU / sectors.length;
   tot = sectors.length;
@@ -23,6 +33,12 @@ async function init() {
 }
 
 init();
+
+// update item count on decrement 
+window.api.onItemCountUpdate((event, updatedItems) => {
+  // updateItemCountDisplay(updatedItems);
+  loadInventory();
+});
 
 const events = {
   listeners: {},

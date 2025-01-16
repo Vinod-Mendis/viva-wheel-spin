@@ -72,6 +72,7 @@ body {
 
 #result-container {
   display: flex;
+  flex-direction: column;
   background: linear-gradient(to left, #ef1923, #ffb822);
   color: white;
   width: 400px;

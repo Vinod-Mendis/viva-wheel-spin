@@ -3,38 +3,49 @@
 let arc;
 let tot;
 let inventory;
+let sectors;
+let displayText;
 
 //function for get item count from table2
 async function loadInventory() {
   inventory = await window.api.getItems();
-  console.log(inventory);
+  // console.log(inventory);
 }
-
 
 async function init() {
   sectors = await window.api.getItems2();
-  console.log(sectors);
+  await loadInventory(); // load item count init
 
-  loadInventory(); // load item count init
+  if (!sectors || sectors.length === 0) {
+    console.error("Sectors are not properly initialized.");
+    return;
+  }
 
   arc = TAU / sectors.length;
   tot = sectors.length;
 
-  sectors.forEach(drawSector);
+  sectors.forEach((sector, i) => {
+    // console.log("Inventory:", inventory); // Log inventory here if needed
+    // console.log("Sector:", sectors); // Log sectors here if needed
+    drawSector(sector, i);
+  });
+
   rotate(); // Initial rotation
   engine(); // Start engine
   bodyClickEl.addEventListener("click", () => {
     if (!angVel) {
-      // Set a random angular velocity for each spin
-      angVel = rand(0.3, 0.6); // Increase the range if you want more variability
+      angVel = rand(0.3, 0.6); // Set a random angular velocity for each spin
       spinButtonClicked = true;
     }
   });
 }
 
+// console.log("Inven: ", inventory);
+// console.log("Sec :", sectors);
+
 init();
 
-// update item count on decrement 
+// update item count on decrement
 window.api.onItemCountUpdate((event, updatedItems) => {
   // updateItemCountDisplay(updatedItems);
   loadInventory();
@@ -65,6 +76,8 @@ const spinEl = document.querySelector("#spin");
 const resultsWrapperEl = document.querySelector("#results-wrapper");
 const resultEl = document.querySelector("#result");
 const resultTextEl = document.querySelector("#result-text");
+const resultText1El = document.querySelector("#result-text1");
+const congratsTextEl = document.querySelector("#congrats");
 const resultContEl = document.querySelector("#result-container");
 const ctx = document.querySelector("#wheel").getContext("2d");
 const dia = ctx.canvas.width;
@@ -108,6 +121,46 @@ const getIndex = () => Math.floor(tot - (ang / TAU) * tot) % tot;
 function drawSector(sector, i) {
   const ang = arc * i;
   ctx.save();
+  // console.log("Inventory inside drawSector:", inventory);
+  // console.log("Sectors inside drawSector:", sectors);
+  // console.log("i :", i === inventory[i].id);
+
+  // // Rin - 1
+  // console.log(
+  //   sectors[0].itemName === inventory[3].itemName
+  //     ? `${inventory[3].itemName} stock: ${inventory[3].count}`
+  //     : "logic error"
+  // );
+  // // cap - 2
+  // console.log(
+  //   sectors[1].itemName === inventory[1].itemName
+  //     ? `${inventory[1].itemName} stock: ${inventory[1].count}`
+  //     : "logic error"
+  // );
+  // // Rin - 3
+  // console.log(
+  //   sectors[2].itemName === inventory[3].itemName
+  //     ? `${inventory[3].itemName} stock: ${inventory[3].count}`
+  //     : "logic error"
+  // );
+  // // tshirt - 4
+  // console.log(
+  //   sectors[3].itemName === inventory[0].itemName
+  //     ? `${inventory[0].itemName} stock: ${inventory[0].count}`
+  //     : "logic error"
+  // );
+  // // cap - 5
+  // console.log(
+  //   sectors[4].itemName === inventory[1].itemName
+  //     ? `${inventory[1].itemName} stock: ${inventory[1].count}`
+  //     : "logic error"
+  // );
+  // // sunlight - 6
+  // console.log(
+  //   sectors[5].itemName === inventory[2].itemName
+  //     ? `${inventory[2].itemName} stock: ${inventory[2].count}`
+  //     : "logic error"
+  // );
 
   // COLOR
   ctx.beginPath();
@@ -121,18 +174,36 @@ function drawSector(sector, i) {
   //! ---------------------
   const img = new Image();
   // img.src = "https://www.pngplay.com/wp-content/uploads/13/Scuderia-Ferrari-Transparent-PNG.png";
-  img.src =
-    i === 0
-      ? "https://res.cloudinary.com/dicewvvjl/image/upload/v1736941846/fkh5dhczev88rbypmm7k.png"
-      : i === 1
-      ? "https://res.cloudinary.com/dicewvvjl/image/upload/v1736941989/w7uwdwis2gbf5p9xy54f.png"
-      : i === 2
-      ? "https://res.cloudinary.com/dicewvvjl/image/upload/v1736947162/pu0tlogr54tnhtjvsev7.png"
-      : i === 3
-      ? "https://res.cloudinary.com/dicewvvjl/image/upload/v1736941846/fkh5dhczev88rbypmm7k.png"
-      : i === 4
-      ? "https://res.cloudinary.com/dicewvvjl/image/upload/v1736941989/w7uwdwis2gbf5p9xy54f.png"
-      : "https://res.cloudinary.com/dicewvvjl/image/upload/v1736940599/mxcmvvbiy3edq3wkmirc.png";
+  let imgUrl = "";
+
+  // Set imgUrl based on sector and inventory count
+  if (i === 0 || i === 2) {
+    // Rin sectors
+    imgUrl =
+      inventory[3].count > 0
+        ? "https://res.cloudinary.com/dicewvvjl/image/upload/v1736947162/pu0tlogr54tnhtjvsev7.png"
+        : "";
+  } else if (i === 1 || i === 4) {
+    // Cap sectors
+    imgUrl =
+      inventory[1].count > 0
+        ? "https://res.cloudinary.com/dicewvvjl/image/upload/v1736941989/w7uwdwis2gbf5p9xy54f.png"
+        : "";
+  } else if (i === 3) {
+    // T-shirt sector
+    imgUrl =
+      inventory[0].count > 0
+        ? "https://res.cloudinary.com/dicewvvjl/image/upload/v1736941846/fkh5dhczev88rbypmm7k.png"
+        : "";
+  } else {
+    // Sunlight sector (i === 5)
+    imgUrl =
+      inventory[2].count > 0
+        ? "https://res.cloudinary.com/dicewvvjl/image/upload/v1736940599/mxcmvvbiy3edq3wkmirc.png"
+        : "";
+  }
+
+  img.src = imgUrl;
   img.onload = () => {
     ctx.save();
     ctx.translate(rad, rad);
@@ -148,7 +219,8 @@ function drawSector(sector, i) {
   ctx.textAlign = "right";
   ctx.fillStyle = "#000";
   ctx.font = "bold 30px 'Lato', sans-serif";
-  ctx.fillText("", rad - 100, 10);
+  displayText = imgUrl === "" ? "Try Again" : "";
+  ctx.fillText(displayText, rad - 100, 10);
 
   ctx.restore();
 }
@@ -186,15 +258,30 @@ function engine() {
 
 //? this event listens when the wheel stops
 events.addListener("spinEnd", (sector) => {
-  console.log(`Woop! You won ${sector.itemName}`);
+  console.log(sector);
   resultsWrapperEl.style.display = "flex"; // display the result div
+  // Find the item in the inventory array
+  const item = inventory.find((item) => item.itemName === sector.itemName);
+
+  // Check if the item exists and log its count
+  if (item) {
+    console.log(`Count of ${sector.itemName}:`, item.count);
+  } else {
+    console.error(`${sector.itemName} not found in inventory.`);
+  }
+
+  item.count === 0
+    ? (resultText1El.style.display = "none")
+    : (resultText1El.style.display = "block");
 
   resultTextEl.textContent =
-    sector.itemName === "try again" ? "" : "You have won";
-  resultEl.textContent =
-    sector.text === "You Lose" ? "Game Over" : sector.itemName;
+    sector.itemName === "try again" ? "" : "You have won a";
+  resultEl.textContent = item.count === 0 ? "Try Again" : sector.itemName; // <-----------------------------------------
   console.log("Decrementing item:", sector.itemName);
   decrementItemInDB(sector.itemName); // Decrement the item count
+  // setTimeout(function () {
+  //   window.location.reload(); // Refreshes the current page after 4 seconds
+  // }, 4000); // 4000 milliseconds = 4 seconds
 });
 
 //! This event listens when you click anywhere in the result shows to close the results window
@@ -202,6 +289,7 @@ events.addListener("spinEnd", (sector) => {
 resultsWrapperEl.addEventListener("click", function () {
   event.stopPropagation(); // stop spin event being executed
   resultsWrapperEl.style.display = "none";
+  window.location.reload();
 });
 
 function reload() {
@@ -214,6 +302,16 @@ async function decrementItemInDB(itemName) {
     const response = await window.api.decrementItem(itemName);
     if (response.success) {
       console.log(`${itemName} count decremented successfully.`);
+
+      // Find the item in the inventory array
+      const item = inventory.find((item) => item.itemName === itemName);
+
+      // Check if the item exists and log its count
+      if (item) {
+        console.log(`Count of ${itemName}:`, item.count);
+      } else {
+        console.error(`${itemName} not found in inventory.`);
+      }
       await window.api.itemUpdated(itemName);
     } else {
       console.error(`Error decrementing ${itemName} count:`, response.error);
